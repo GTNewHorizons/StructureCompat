@@ -1,0 +1,21 @@
+{
+	"modListVersion": 2,
+	"modList": [{
+		"modid": "${modId}",
+		"name": "${modName}",
+		"description": "Setup StructureLib with compat for other mods.",
+		"version": "${modVersion}",
+		"mcversion": "${minecraftVersion}",
+		"url": "https://github.com/GTNewHorizons/StructureCompat",
+		"updateUrl": "",
+		"authorList": ["glee8e"],
+		"credits": "",
+		"logoFile": "",
+		"screenshots": [],
+		"parent": "",
+		"requiredMods": ["structurelib"],
+		"dependencies": [],
+		"dependants": [],
+		"useDependencyInformation": true
+	}]
+}
