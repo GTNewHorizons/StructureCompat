@@ -17,4 +17,8 @@ dependencies {
     runtime("curse.maven:cofh-core-69162:2388751") {
         transitive = false
     }
+    // for convenience of debug
+    runtime("com.github.GTNewHorizons:NotEnoughItems:2.2.20-GTNH:dev")
+    runtime("com.github.GTNewHorizons:CodeChickenLib:1.1.5.3:dev")
+    runtime("com.github.GTNewHorizons:waila:1.5.18:dev")
 }
