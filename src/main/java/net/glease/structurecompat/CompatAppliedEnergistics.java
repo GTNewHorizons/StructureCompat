@@ -1,23 +1,35 @@
 package net.glease.structurecompat;
 
 import appeng.api.AEApi;
+import appeng.api.config.AccessRestriction;
 import appeng.api.config.Actionable;
+import appeng.api.config.FuzzyMode;
 import appeng.api.config.PowerMultiplier;
 import appeng.api.features.ILocatable;
 import appeng.api.features.IWirelessTermHandler;
 import appeng.api.implementations.items.IAEItemPowerStorage;
 import appeng.api.networking.IGridHost;
 import appeng.api.networking.energy.IEnergySource;
+import appeng.api.networking.security.BaseActionSource;
 import appeng.api.networking.security.PlayerSource;
 import appeng.api.storage.IMEInventoryHandler;
+import appeng.api.storage.IMEMonitor;
 import appeng.api.storage.StorageChannel;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IItemList;
 import appeng.helpers.WirelessTerminalGuiObject;
+import appeng.items.storage.ItemViewCell;
+import appeng.util.prioitylist.IPartitionList;
+import com.gtnewhorizon.structurelib.util.InventoryIterable;
 import com.gtnewhorizon.structurelib.util.InventoryUtility;
 import com.gtnewhorizon.structurelib.util.InventoryUtility.ItemStackCounter;
 import com.gtnewhorizon.structurelib.util.InventoryUtility.ItemStackExtractor;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Spliterator;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.stream.StreamSupport;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import org.apache.commons.lang3.tuple.Pair;
@@ -46,7 +58,11 @@ public class CompatAppliedEnergistics {
                         wh, source, player, player.getEntityWorld(), (int) player.posX, (int) player.posY, (int)
                                 player.posZ);
                 if (!guiObject.rangeCheck()) return null;
-                return Pair.of(guiObject, guiObject.getItemInventory());
+                IPartitionList<IAEItemStack> filter = ItemViewCell.createFilter(StreamSupport.stream(
+                                new InventoryIterable<>(guiObject.getViewCellStorage()).spliterator(), false)
+                        .toArray(ItemStack[]::new));
+                IMEMonitor<IAEItemStack> rawInventory = guiObject.getItemInventory();
+                return Pair.of(guiObject, new ExtractionFilteredMEInventoryHandler(rawInventory, filter));
             }
         });
         InventoryUtility.registerStackExtractor("1000-ae2-portable-cell", new MEInventoryStackExtractor() {
@@ -148,6 +164,121 @@ public class CompatAppliedEnergistics {
                     simulate,
                     player,
                     pair.getRight());
+        }
+    }
+
+    private static class ExtractionFilteredMEInventoryHandler implements IMEInventoryHandler<IAEItemStack> {
+        private final IMEMonitor<IAEItemStack> rawInventory;
+        private final IPartitionList<IAEItemStack> filter;
+
+        public ExtractionFilteredMEInventoryHandler(
+                IMEMonitor<IAEItemStack> rawInventory, IPartitionList<IAEItemStack> filter) {
+            this.rawInventory = rawInventory;
+            this.filter = filter;
+        }
+
+        @Override
+        public AccessRestriction getAccess() {
+            return rawInventory.getAccess();
+        }
+
+        @Override
+        public boolean isPrioritized(IAEItemStack input) {
+            return rawInventory.isPrioritized(input);
+        }
+
+        @Override
+        public boolean canAccept(IAEItemStack input) {
+            return rawInventory.canAccept(input);
+        }
+
+        @Override
+        public int getPriority() {
+            return rawInventory.getPriority();
+        }
+
+        @Override
+        public int getSlot() {
+            return rawInventory.getSlot();
+        }
+
+        @Override
+        public boolean validForPass(int i) {
+            return rawInventory.validForPass(i);
+        }
+
+        @Override
+        public IAEItemStack injectItems(IAEItemStack input, Actionable type, BaseActionSource src) {
+            // inject is not filtered
+            return rawInventory.injectItems(input, type, src);
+        }
+
+        @Override
+        public IAEItemStack extractItems(IAEItemStack request, Actionable mode, BaseActionSource src) {
+            if (!filter.isListed(request)) return null;
+            return rawInventory.extractItems(request, mode, src);
+        }
+
+        @Override
+        public IItemList<IAEItemStack> getAvailableItems(IItemList<IAEItemStack> out) {
+            return rawInventory.getAvailableItems(new IItemList<IAEItemStack>() {
+                public void addStorage(IAEItemStack option) {
+                    if (filter.isListed(option)) out.addStorage(option);
+                }
+
+                public void addCrafting(IAEItemStack option) {
+                    if (filter.isListed(option)) out.addCrafting(option);
+                }
+
+                public void addRequestable(IAEItemStack option) {
+                    if (filter.isListed(option)) out.addRequestable(option);
+                }
+
+                public IAEItemStack getFirstItem() {
+                    return out.getFirstItem();
+                }
+
+                public int size() {
+                    return out.size();
+                }
+
+                public Iterator<IAEItemStack> iterator() {
+                    return out.iterator();
+                }
+
+                public void resetStatus() {
+                    out.resetStatus();
+                }
+
+                public void add(IAEItemStack option) {
+                    out.add(option);
+                }
+
+                public IAEItemStack findPrecise(IAEItemStack i) {
+                    return out.findPrecise(i);
+                }
+
+                public Collection<IAEItemStack> findFuzzy(IAEItemStack input, FuzzyMode fuzzy) {
+                    return out.findFuzzy(input, fuzzy);
+                }
+
+                public boolean isEmpty() {
+                    return out.isEmpty();
+                }
+
+                public void forEach(Consumer<? super IAEItemStack> action) {
+                    out.forEach(action);
+                }
+
+                public Spliterator<IAEItemStack> spliterator() {
+                    return out.spliterator();
+                }
+            });
+        }
+
+        @Override
+        public StorageChannel getChannel() {
+            return rawInventory.getChannel();
         }
     }
 }
