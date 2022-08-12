@@ -62,6 +62,7 @@ public class CompatAppliedEnergistics {
                                 new InventoryIterable<>(guiObject.getViewCellStorage()).spliterator(), false)
                         .toArray(ItemStack[]::new));
                 IMEMonitor<IAEItemStack> rawInventory = guiObject.getItemInventory();
+                if (filter == null) return Pair.of(guiObject, rawInventory);
                 return Pair.of(guiObject, new ExtractionFilteredMEInventoryHandler(rawInventory, filter));
             }
         });
