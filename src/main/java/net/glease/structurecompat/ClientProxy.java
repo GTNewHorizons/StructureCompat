@@ -1,6 +1,6 @@
 package net.glease.structurecompat;
 
-import com.mitchej123.hodgepodge.core.textures.IPatchedTextureAtlasSprite;
+import com.mitchej123.hodgepodge.textures.IPatchedTextureAtlasSprite;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
@@ -14,7 +14,7 @@ public class ClientProxy extends CommonProxy {
     public void preInit(FMLPreInitializationEvent event) {
         try {
             ArtifactVersion accepted =
-                    new DefaultArtifactVersion("hodgepodge", VersionRange.createFromVersionSpec("[1.7.7,)"));
+                    new DefaultArtifactVersion("hodgepodge", VersionRange.createFromVersionSpec("[2.0.0,3)"));
             ModContainer mc = Loader.instance().getIndexedModList().get("hodgepodge");
             if (mc != null) notifyHodgepodgeTextureUsed = accepted.containsVersion(mc.getProcessedVersion());
         } catch (InvalidVersionSpecificationException e) {
