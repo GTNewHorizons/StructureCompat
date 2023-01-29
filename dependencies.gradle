@@ -14,14 +14,14 @@ dependencies {
     compile("com.github.GTNewHorizons:ForestryMC:4.4.10:dev") {
         transitive = false
     }
-    runtime("curse.maven:cofh-core-69162:2388751") {
+    runtimeOnly("curse.maven:cofh-core-69162:2388751") {
         transitive = false
     }
     compile("com.github.GTNewHorizons:Hodgepodge:2.0.1:dev") {
         transitive = false
     }
     // for convenience of debug
-    runtime("com.github.GTNewHorizons:NotEnoughItems:2.2.20-GTNH:dev")
-    runtime("com.github.GTNewHorizons:CodeChickenLib:1.1.5.3:dev")
-    runtime("com.github.GTNewHorizons:waila:1.5.18:dev")
+    runtimeOnly("com.github.GTNewHorizons:NotEnoughItems:2.2.20-GTNH:dev")
+    runtimeOnly("com.github.GTNewHorizons:CodeChickenLib:1.1.5.3:dev")
+    runtimeOnly("com.github.GTNewHorizons:waila:1.5.18:dev")
 }
