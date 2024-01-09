@@ -1,5 +1,22 @@
 package net.glease.structurecompat;
 
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Spliterator;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+import java.util.stream.StreamSupport;
+
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
+
+import org.apache.commons.lang3.tuple.Pair;
+
+import com.gtnewhorizon.structurelib.util.InventoryIterable;
+import com.gtnewhorizon.structurelib.util.InventoryUtility;
+import com.gtnewhorizon.structurelib.util.InventoryUtility.ItemStackCounter;
+import com.gtnewhorizon.structurelib.util.InventoryUtility.ItemStackExtractor;
+
 import appeng.api.AEApi;
 import appeng.api.config.AccessRestriction;
 import appeng.api.config.Actionable;
@@ -20,30 +37,18 @@ import appeng.api.storage.data.IItemList;
 import appeng.helpers.WirelessTerminalGuiObject;
 import appeng.items.storage.ItemViewCell;
 import appeng.util.prioitylist.IPartitionList;
-import com.gtnewhorizon.structurelib.util.InventoryIterable;
-import com.gtnewhorizon.structurelib.util.InventoryUtility;
-import com.gtnewhorizon.structurelib.util.InventoryUtility.ItemStackCounter;
-import com.gtnewhorizon.structurelib.util.InventoryUtility.ItemStackExtractor;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.Spliterator;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
-import java.util.stream.StreamSupport;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.item.ItemStack;
-import org.apache.commons.lang3.tuple.Pair;
 
 @Compat("appliedenergistics2")
 public class CompatAppliedEnergistics {
+
     public CompatAppliedEnergistics() {
         InventoryUtility.registerStackExtractor("1000-ae2-wireless", new MEInventoryStackExtractor() {
+
             @Override
-            protected Pair<IEnergySource, IMEInventoryHandler<IAEItemStack>> fromItem(
-                    ItemStack source, EntityPlayerMP player) {
+            protected Pair<IEnergySource, IMEInventoryHandler<IAEItemStack>> fromItem(ItemStack source,
+                    EntityPlayerMP player) {
                 if (!AEApi.instance().registries().wireless().isWirelessTerminal(source)) return null;
-                IWirelessTermHandler wh =
-                        AEApi.instance().registries().wireless().getWirelessTerminalHandler(source);
+                IWirelessTermHandler wh = AEApi.instance().registries().wireless().getWirelessTerminalHandler(source);
                 if (wh == null) return null;
                 String key = wh.getEncryptionKey(source);
                 long serial;
@@ -55,21 +60,28 @@ public class CompatAppliedEnergistics {
                 ILocatable locatable = AEApi.instance().registries().locatable().getLocatableBy(serial);
                 if (!(locatable instanceof IGridHost)) return null;
                 WirelessTerminalGuiObject guiObject = new WirelessTerminalGuiObject(
-                        wh, source, player, player.getEntityWorld(), (int) player.posX, (int) player.posY, (int)
-                                player.posZ);
+                        wh,
+                        source,
+                        player,
+                        player.getEntityWorld(),
+                        (int) player.posX,
+                        (int) player.posY,
+                        (int) player.posZ);
                 if (!guiObject.rangeCheck()) return null;
-                IPartitionList<IAEItemStack> filter = ItemViewCell.createFilter(StreamSupport.stream(
-                                new InventoryIterable<>(guiObject.getViewCellStorage()).spliterator(), false)
-                        .toArray(ItemStack[]::new));
+                IPartitionList<IAEItemStack> filter = ItemViewCell.createFilter(
+                        StreamSupport
+                                .stream(new InventoryIterable<>(guiObject.getViewCellStorage()).spliterator(), false)
+                                .toArray(ItemStack[]::new));
                 IMEMonitor<IAEItemStack> rawInventory = guiObject.getItemInventory();
                 if (filter == null) return Pair.of(guiObject, rawInventory);
                 return Pair.of(guiObject, new ExtractionFilteredMEInventoryHandler(rawInventory, filter));
             }
         });
         InventoryUtility.registerStackExtractor("1000-ae2-portable-cell", new MEInventoryStackExtractor() {
+
             @Override
-            protected Pair<IEnergySource, IMEInventoryHandler<IAEItemStack>> fromItem(
-                    ItemStack source, EntityPlayerMP player) {
+            protected Pair<IEnergySource, IMEInventoryHandler<IAEItemStack>> fromItem(ItemStack source,
+                    EntityPlayerMP player) {
                 if (!AEApi.instance().definitions().items().portableCell().isSameAs(source)) return null;
                 // copied from appeng.items.contents.PortableCellViewer.extractAEPower
                 // seriously why this isn't part of ae itself?
@@ -94,12 +106,9 @@ public class CompatAppliedEnergistics {
     }
 
     private abstract static class MEInventoryStackExtractor implements ItemStackExtractor {
-        private static int extractFromMEInventory(
-                IEnergySource source,
-                IAEItemStack toExtract,
-                boolean simulate,
-                EntityPlayerMP player,
-                IMEInventoryHandler<IAEItemStack> inv) {
+
+        private static int extractFromMEInventory(IEnergySource source, IAEItemStack toExtract, boolean simulate,
+                EntityPlayerMP player, IMEInventoryHandler<IAEItemStack> inv) {
             PlayerSource actionSource = new PlayerSource(player, null);
             IAEItemStack extracted;
             if (simulate) {
@@ -110,8 +119,8 @@ public class CompatAppliedEnergistics {
             return Math.toIntExact(extracted == null ? 0 : extracted.getStackSize());
         }
 
-        protected abstract Pair<IEnergySource, IMEInventoryHandler<IAEItemStack>> fromItem(
-                ItemStack source, EntityPlayerMP player);
+        protected abstract Pair<IEnergySource, IMEInventoryHandler<IAEItemStack>> fromItem(ItemStack source,
+                EntityPlayerMP player);
 
         @Override
         public boolean isAPIImplemented(APIType type) {
@@ -119,22 +128,16 @@ public class CompatAppliedEnergistics {
         }
 
         @Override
-        public int takeFromStack(
-                Predicate<ItemStack> predicate,
-                boolean simulate,
-                int count,
-                ItemStackCounter store,
-                ItemStack source,
-                ItemStack filter,
-                EntityPlayerMP player) {
+        public int takeFromStack(Predicate<ItemStack> predicate, boolean simulate, int count, ItemStackCounter store,
+                ItemStack source, ItemStack filter, EntityPlayerMP player) {
             // sanity check
             if (source == null || source.stackSize <= 0) return 0;
             Pair<IEnergySource, IMEInventoryHandler<IAEItemStack>> pair = fromItem(source, player);
             if (pair == null) return 0;
             IEnergySource energy = pair.getLeft();
             IMEInventoryHandler<IAEItemStack> cellInventory = pair.getRight();
-            IItemList<IAEItemStack> items =
-                    cellInventory.getAvailableItems(AEApi.instance().storage().createPrimitiveItemList());
+            IItemList<IAEItemStack> items = cellInventory
+                    .getAvailableItems(AEApi.instance().storage().createPrimitiveItemList());
             // limit the extraction count to maximum supported by power, so we don't have to constantly
             // check for power limits later on.
             count = Math.min(count, (int) energy.extractAEPower(count, Actionable.SIMULATE, PowerMultiplier.ONE));
@@ -169,11 +172,12 @@ public class CompatAppliedEnergistics {
     }
 
     private static class ExtractionFilteredMEInventoryHandler implements IMEInventoryHandler<IAEItemStack> {
+
         private final IMEMonitor<IAEItemStack> rawInventory;
         private final IPartitionList<IAEItemStack> filter;
 
-        public ExtractionFilteredMEInventoryHandler(
-                IMEMonitor<IAEItemStack> rawInventory, IPartitionList<IAEItemStack> filter) {
+        public ExtractionFilteredMEInventoryHandler(IMEMonitor<IAEItemStack> rawInventory,
+                IPartitionList<IAEItemStack> filter) {
             this.rawInventory = rawInventory;
             this.filter = filter;
         }
@@ -223,6 +227,7 @@ public class CompatAppliedEnergistics {
         @Override
         public IItemList<IAEItemStack> getAvailableItems(IItemList<IAEItemStack> out) {
             return rawInventory.getAvailableItems(new IItemList<IAEItemStack>() {
+
                 public void addStorage(IAEItemStack option) {
                     if (filter.isListed(option)) out.addStorage(option);
                 }
