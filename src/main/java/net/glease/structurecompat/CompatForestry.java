@@ -1,13 +1,16 @@
 package net.glease.structurecompat;
 
-import com.gtnewhorizon.structurelib.util.InventoryUtility;
-import forestry.storage.inventory.ItemInventoryBackpack;
-import forestry.storage.items.ItemBackpack;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 
+import com.gtnewhorizon.structurelib.util.InventoryUtility;
+
+import forestry.storage.inventory.ItemInventoryBackpack;
+import forestry.storage.items.ItemBackpack;
+
 @Compat("Forestry")
 public class CompatForestry {
+
     public CompatForestry() {
         InventoryUtility.registerStackExtractor(
                 "1000-forestry-backpack",
@@ -18,6 +21,7 @@ public class CompatForestry {
 
     // hacky wacky, but works, for now.
     private static class MyItemInventoryBackpack extends ItemInventoryBackpack {
+
         private final ItemStack source;
 
         public MyItemInventoryBackpack(ItemStack source) {

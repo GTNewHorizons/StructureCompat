@@ -1,7 +1,8 @@
 package net.glease.structurecompat;
 
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import net.minecraft.util.IIcon;
+
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
 public class CommonProxy {
 

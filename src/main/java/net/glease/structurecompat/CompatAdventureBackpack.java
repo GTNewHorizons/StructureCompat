@@ -7,11 +7,11 @@ import com.gtnewhorizon.structurelib.util.InventoryUtility;
 
 @Compat("adventurebackpack")
 public class CompatAdventureBackpack {
+
     public CompatAdventureBackpack() {
         InventoryUtility.registerInventoryProvider(
                 "6000-adventure-backpack",
-                player -> !Wearing.isWearingBackpack(player)
-                        ? null
+                player -> !Wearing.isWearingBackpack(player) ? null
                         : new InventoryBackpack(Wearing.getWearingBackpack(player)));
         InventoryUtility.registerStackExtractor(
                 "1000-adventure-backpack",
