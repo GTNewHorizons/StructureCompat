@@ -84,7 +84,7 @@ public class CompatBloodMagic {
             new CompatBloodMagic.AltarMultiblockInfoContainer(structureAltar));
         // spotless:on
     }
-    
+
     private static class AltarMultiblockInfoContainer implements IMultiblockInfoContainer<TEAltar> {
 
         private final IStructureDefinition<TEAltar> structureAltar;
