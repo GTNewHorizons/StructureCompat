@@ -21,12 +21,12 @@ import WayofTime.alchemicalWizardry.common.tileEntity.TEAltar;
 @Compat("AWWayofTime")
 public class CompatBloodMagic {
 
-    private static String STRUCTURE_ALTAR = "tier1";
-    private static String STRUCTURE_TIER_2 = "tier2";
-    private static String STRUCTURE_TIER_3 = "tier3";
-    private static String STRUCTURE_TIER_4 = "tier4";
-    private static String STRUCTURE_TIER_5 = "tier5";
-    private static String STRUCTURE_TIER_6 = "tier6";
+    private static final String STRUCTURE_ALTAR = "tier1";
+    private static final String STRUCTURE_TIER_2 = "tier2";
+    private static final String STRUCTURE_TIER_3 = "tier3";
+    private static final String STRUCTURE_TIER_4 = "tier4";
+    private static final String STRUCTURE_TIER_5 = "tier5";
+    private static final String STRUCTURE_TIER_6 = "tier6";
 
     public static final int[][] TIER_OFFSET = { { 0, 0, 0 }, { 1, -1, 1 }, { 3, 1, 3 }, { 5, 2, 5 }, { 8, -3, 8 },
             { 11, 3, 11 } };
@@ -84,11 +84,7 @@ public class CompatBloodMagic {
             new CompatBloodMagic.AltarMultiblockInfoContainer(structureAltar));
         // spotless:on
     }
-
-    private static ExtendedFacing noSideWay(ExtendedFacing aSide) {
-        return aSide.getDirection().offsetY != 0 ? ExtendedFacing.DEFAULT : aSide;
-    }
-
+    
     private static class AltarMultiblockInfoContainer implements IMultiblockInfoContainer<TEAltar> {
 
         private final IStructureDefinition<TEAltar> structureAltar;
@@ -104,13 +100,12 @@ public class CompatBloodMagic {
                 tier = 6;
             }
             for (int i = 1; i <= tier; i++) {
-                System.out.println("tier" + i);
                 this.structureAltar.buildOrHints(
                         ctx,
                         triggerStack,
                         "tier" + i,
                         ctx.getWorldObj(),
-                        noSideWay(aSide),
+                        ExtendedFacing.DEFAULT,
                         ctx.xCoord,
                         ctx.yCoord,
                         ctx.zCoord,
@@ -129,13 +124,15 @@ public class CompatBloodMagic {
             if (tier > 6) {
                 tier = 6;
             }
+            if (ctx.getTier() >= tier) return -1;
+
             for (int i = 1; i <= tier; i++) {
                 built += this.structureAltar.survivalBuild(
                         ctx,
                         triggerStack,
                         "tier" + i,
                         ctx.getWorldObj(),
-                        noSideWay(aSide),
+                        ExtendedFacing.DEFAULT,
                         ctx.xCoord,
                         ctx.yCoord,
                         ctx.zCoord,
