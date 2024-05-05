@@ -4,6 +4,8 @@ import static com.gtnewhorizon.structurelib.structure.StructureUtility.ofBlock;
 import static com.gtnewhorizon.structurelib.structure.StructureUtility.partitionBy;
 import static net.glease.structurecompat.StructureUtilityExt.notBlock;
 
+import java.util.Arrays;
+
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -160,13 +162,13 @@ public class CompatRailcraft {
         for (int i = 0, intsLength = ints.length; i < intsLength; i++) {
             int[] dimension = ints[i];
             String[][] shape1 = new String[dimension[1]][];
-            String[][] shape2 = null;
+            String[][] shape2 = new String[dimension[1]][];
             for (int i1 = 0; i1 < dimension[1]; i1++) {
                 shape1[i1] = new String[dimension[0] + 1];
                 for (int i2 = 0; i2 < dimension[0]; i2++) {
                     shape1[i1][i2] = Strings.repeat("b", dimension[1]);
                 }
-                shape2 = shape1.clone();
+                shape2[i1] = Arrays.copyOf(shape1[i1], shape1[i1].length);
                 shape1[i1][dimension[0]] = Strings.repeat("f", dimension[1]);
                 shape2[i1][dimension[0]] = Strings.repeat("F", dimension[1]);
             }
