@@ -2,6 +2,7 @@
 
 dependencies {
     api("com.github.GTNewHorizons:StructureLib:1.3.1:dev")
+
     implementation("com.github.GTNewHorizons:Applied-Energistics-2-Unofficial:rv3-beta-400-GTNH:dev") {
         transitive = false
     }
@@ -14,7 +15,10 @@ dependencies {
     implementation("com.github.GTNewHorizons:ForestryMC:4.9.0:dev") {
         transitive = false
     }
-    runtimeOnly("curse.maven:cofh-core-69162:2388751") {
+    implementation("com.github.GTNewHorizons:WirelessCraftingTerminal:1.11.2:dev")
+    implementation("com.github.GTNewHorizons:AE2FluidCraft-Rework:1.2.28-gtnh:dev")
+    // or else wct compat won't compile
+    implementation("curse.maven:cofh-core-69162:2388751") {
         transitive = false
     }
     compileOnly("com.github.GTNewHorizons:Hodgepodge:2.5.0:dev") {
