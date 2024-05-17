@@ -25,8 +25,9 @@ dependencies {
         transitive = false
     }
     implementation("com.github.GTNewHorizons:Railcraft:9.15.8:dev")
-
+    implementation("com.github.GTNewHorizons:Baubles:1.0.3:dev")
     implementation("com.github.GTNewHorizons:BloodMagic:1.6.0:dev")
+
     // for convenience of debug
     runtimeOnlyNonPublishable("com.github.GTNewHorizons:NotEnoughItems:2.6.0-GTNH:dev")
     runtimeOnlyNonPublishable("com.github.GTNewHorizons:waila:1.7.3:dev")
