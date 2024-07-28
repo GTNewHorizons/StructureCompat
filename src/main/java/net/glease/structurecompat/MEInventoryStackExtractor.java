@@ -17,6 +17,7 @@ import appeng.api.networking.security.PlayerSource;
 import appeng.api.storage.IMEInventoryHandler;
 import appeng.api.storage.data.IAEItemStack;
 import appeng.api.storage.data.IItemList;
+import appeng.util.IterationCounter;
 
 abstract class MEInventoryStackExtractor implements InventoryUtility.ItemStackExtractor {
 
@@ -50,7 +51,7 @@ abstract class MEInventoryStackExtractor implements InventoryUtility.ItemStackEx
         IEnergySource energy = pair.getLeft();
         IMEInventoryHandler<IAEItemStack> cellInventory = pair.getRight();
         IItemList<IAEItemStack> items = cellInventory
-                .getAvailableItems(AEApi.instance().storage().createPrimitiveItemList());
+                .getAvailableItems(AEApi.instance().storage().createPrimitiveItemList(), IterationCounter.fetchNewId());
         // limit the extraction count to maximum supported by power, so we don't have to constantly
         // check for power limits later on.
         count = Math.min(count, (int) energy.extractAEPower(count, Actionable.SIMULATE, PowerMultiplier.ONE));
