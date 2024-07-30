@@ -181,7 +181,7 @@ abstract class WirelessTerminalStackExtractor extends MEInventoryStackExtractor 
         }
 
         @Override
-        public IItemList<IAEItemStack> getAvailableItems(IItemList<IAEItemStack> out) {
+        public IItemList<IAEItemStack> getAvailableItems(IItemList<IAEItemStack> out, int iteration) {
             return rawInventory.getAvailableItems(new IItemList<IAEItemStack>() {
 
                 public void addStorage(IAEItemStack option) {
@@ -235,7 +235,7 @@ abstract class WirelessTerminalStackExtractor extends MEInventoryStackExtractor 
                 public Spliterator<IAEItemStack> spliterator() {
                     return out.spliterator();
                 }
-            });
+            }, iteration);
         }
 
         @Override
