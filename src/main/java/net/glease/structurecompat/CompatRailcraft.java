@@ -1,7 +1,8 @@
 package net.glease.structurecompat;
 
 import static com.gtnewhorizon.structurelib.structure.StructureUtility.ofBlock;
-import static com.gtnewhorizon.structurelib.structure.StructureUtility.partitionBy;
+import static com.gtnewhorizon.structurelib.structure.StructureUtility.ofBlocksTiered;
+import static com.gtnewhorizon.structurelib.structure.StructureUtility.withChannel;
 import static net.glease.structurecompat.StructureUtilityExt.notBlock;
 
 import java.util.Arrays;
@@ -12,13 +13,16 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.StatCollector;
 
+import org.apache.commons.lang3.tuple.Pair;
+
 import com.google.common.base.Strings;
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableList;
 import com.gtnewhorizon.structurelib.alignment.constructable.ChannelDataAccessor;
 import com.gtnewhorizon.structurelib.alignment.constructable.IMultiblockInfoContainer;
 import com.gtnewhorizon.structurelib.alignment.enumerable.ExtendedFacing;
 import com.gtnewhorizon.structurelib.structure.IStructureDefinition;
 import com.gtnewhorizon.structurelib.structure.ISurvivalBuildEnvironment;
+import com.gtnewhorizon.structurelib.structure.ITierConverter;
 import com.gtnewhorizon.structurelib.structure.StructureDefinition;
 
 import mods.railcraft.common.blocks.RailcraftBlocks;
@@ -177,19 +181,28 @@ public class CompatRailcraft {
         }
         Block blockMachineBeta = RailcraftBlocks.getBlockMachineBeta();
         IStructureDefinition<TileBoilerFirebox> structureBoiler = b
-                .addElement('f', ofBlock(blockMachineBeta, EnumMachineBeta.BOILER_FIREBOX_SOLID.ordinal()))
-                .addElement('F', ofBlock(blockMachineBeta, EnumMachineBeta.BOILER_FIREBOX_FLUID.ordinal()))
+                .addElement(
+                        'f',
+                        ofBlock(blockMachineBeta, EnumMachineBeta.BOILER_FIREBOX_SOLID.ordinal()))
+                .addElement(
+                        'F',
+                        ofBlock(blockMachineBeta, EnumMachineBeta.BOILER_FIREBOX_FLUID.ordinal()))
                 .addElement(
                         'b',
-                        partitionBy(
-                                (t, i) -> ChannelDataAccessor.getChannelData(i, "boiler") <= 1,
-                                ImmutableMap.of(
-                                        true,
-                                        ofBlock(blockMachineBeta, EnumMachineBeta.BOILER_TANK_LOW_PRESSURE.ordinal()),
-                                        false,
-                                        ofBlock(
-                                                blockMachineBeta,
-                                                EnumMachineBeta.BOILER_TANK_HIGH_PRESSURE.ordinal()))))
+                        withChannel(
+                                "boiler",
+                                ofBlocksTiered(
+                                        getBoilerTier(),
+                                        ImmutableList.of(
+                                                Pair.of(
+                                                        blockMachineBeta,
+                                                        EnumMachineBeta.BOILER_TANK_LOW_PRESSURE.ordinal()),
+                                                Pair.of(
+                                                        blockMachineBeta,
+                                                        EnumMachineBeta.BOILER_TANK_HIGH_PRESSURE.ordinal())),
+                                        null,
+                                        (c, d) -> {},
+                                        e -> 0)))
                 .build();
         IMultiblockInfoContainer.registerTileClass(
                 TileBoilerFireboxFluid.class,
@@ -197,6 +210,21 @@ public class CompatRailcraft {
         IMultiblockInfoContainer.registerTileClass(
                 TileBoilerFireboxSolid.class,
                 new BoilerMultiblockInfoContainer(structureBoiler, solidPrefix));
+    }
+
+    public static ITierConverter<Integer> getBoilerTier() {
+        return (block, meta) -> {
+            if (block == RailcraftBlocks.getBlockMachineBeta()) {
+                if (meta == EnumMachineBeta.BOILER_TANK_LOW_PRESSURE.ordinal()) {
+                    return 1;
+                }
+
+                if (meta == EnumMachineBeta.BOILER_TANK_HIGH_PRESSURE.ordinal()) {
+                    return 2;
+                }
+            }
+            return 0;
+        };
     }
 
     private static ExtendedFacing noSideWay(ExtendedFacing aSide) {
