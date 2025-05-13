@@ -15,8 +15,10 @@ dependencies {
     implementation("com.github.GTNewHorizons:ForestryMC:4.10.7:dev") {
         transitive = false
     }
-    implementation("com.github.GTNewHorizons:WirelessCraftingTerminal:1.12.0:dev")
-    implementation("com.github.GTNewHorizons:AE2FluidCraft-Rework:1.4.53-gtnh:dev")
+    implementation("com.github.GTNewHorizons:WirelessCraftingTerminal:1.12.1:dev")
+    implementation("com.github.GTNewHorizons:AE2FluidCraft-Rework:1.4.53-gtnh:dev") {
+        exclude module: 'Baubles'
+    }
     // or else wct compat won't compile
     implementation("curse.maven:cofh-core-69162:2388751") {
         transitive = false
@@ -24,7 +26,9 @@ dependencies {
     compileOnly("com.github.GTNewHorizons:Hodgepodge:2.6.40:dev") {
         transitive = false
     }
-    implementation("com.github.GTNewHorizons:Railcraft:9.16.23:dev")
+    implementation("com.github.GTNewHorizons:Railcraft:9.16.23:dev") {
+        exclude module: 'Baubles'
+    }
     implementation("com.github.GTNewHorizons:Baubles-Expanded:2.1.7-GTNH:dev")
 
     // for convenience of debug
