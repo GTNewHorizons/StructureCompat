@@ -15,7 +15,9 @@ dependencies {
     implementation("com.github.GTNewHorizons:ForestryMC:4.10.7:dev") {
         transitive = false
     }
-    implementation("com.github.GTNewHorizons:WirelessCraftingTerminal:1.12.0:dev")
+    implementation("com.github.GTNewHorizons:WirelessCraftingTerminal:1.12.0:dev") {
+        exclude module: "Baubles"
+    }
     implementation("com.github.GTNewHorizons:AE2FluidCraft-Rework:1.4.53-gtnh:dev")
     // or else wct compat won't compile
     implementation("curse.maven:cofh-core-69162:2388751") {
