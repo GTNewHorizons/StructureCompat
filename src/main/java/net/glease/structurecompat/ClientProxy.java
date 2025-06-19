@@ -1,6 +1,8 @@
 package net.glease.structurecompat;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.World;
 
 import com.mitchej123.hodgepodge.textures.IPatchedTextureAtlasSprite;
 
@@ -34,5 +36,10 @@ public class ClientProxy extends CommonProxy {
         if (notifyHodgepodgeTextureUsed) {
             if (o instanceof IPatchedTextureAtlasSprite) ((IPatchedTextureAtlasSprite) o).markNeedsAnimationUpdate();
         }
+    }
+
+    @Override
+    public boolean checkServerUtilitiesPermission(World world, EntityPlayer actor, int x, int z) {
+        return CompatServerUtilities.checkPermission(world, actor, x, z);
     }
 }
