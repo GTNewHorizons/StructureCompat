@@ -18,6 +18,8 @@ public class ClientProxy extends CommonProxy {
 
     private boolean notifyHodgepodgeTextureUsed = false;
 
+    private static final boolean isSULoaded = Loader.isModLoaded("serverutilities");
+
     @Override
     public void preInit(FMLPreInitializationEvent event) {
         try {
@@ -40,6 +42,9 @@ public class ClientProxy extends CommonProxy {
 
     @Override
     public boolean checkServerUtilitiesPermission(World world, EntityPlayer actor, int x, int z) {
-        return CompatServerUtilities.checkPermission(world, actor, x, z);
+        if (isSULoaded) {
+            return CompatServerUtilities.checkPermission(world, actor, x, z);
+        }
+        return true;
     }
 }
