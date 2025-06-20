@@ -1,7 +1,7 @@
 // Add your dependencies here
 
 dependencies {
-    api("com.github.GTNewHorizons:StructureLib:1.4.13-pre:dev")
+    api("com.github.GTNewHorizons:StructureLib:1.4.14-pre:dev")
 
     implementation("com.github.GTNewHorizons:Applied-Energistics-2-Unofficial:rv3-beta-632-GTNH:dev") {
         transitive = false
