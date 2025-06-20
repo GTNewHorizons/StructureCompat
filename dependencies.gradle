@@ -25,7 +25,10 @@ dependencies {
     }
     compileOnly("com.github.GTNewHorizons:Hodgepodge:2.6.79:dev") {
         transitive = false
-    }
+	
+	compileOnly("com.github.GTNewHorizons:ServerUtilities:2.1.54:dev")
+    
+	}
     implementation("com.github.GTNewHorizons:Railcraft:9.16.30:dev") {
         exclude module: 'Baubles'
     }
