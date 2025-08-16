@@ -1,6 +1,8 @@
 package net.glease.structurecompat;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.World;
 
 import com.mitchej123.hodgepodge.textures.IPatchedTextureAtlasSprite;
 
@@ -15,6 +17,8 @@ import cpw.mods.fml.common.versioning.VersionRange;
 public class ClientProxy extends CommonProxy {
 
     private boolean notifyHodgepodgeTextureUsed = false;
+
+    private static final boolean isSULoaded = Loader.isModLoaded("serverutilities");
 
     @Override
     public void preInit(FMLPreInitializationEvent event) {
@@ -34,5 +38,13 @@ public class ClientProxy extends CommonProxy {
         if (notifyHodgepodgeTextureUsed) {
             if (o instanceof IPatchedTextureAtlasSprite) ((IPatchedTextureAtlasSprite) o).markNeedsAnimationUpdate();
         }
+    }
+
+    @Override
+    public boolean checkServerUtilitiesPermission(World world, EntityPlayer actor, int x, int z) {
+        if (isSULoaded) {
+            return CompatServerUtilities.checkPermission(world, actor, x, z);
+        }
+        return true;
     }
 }

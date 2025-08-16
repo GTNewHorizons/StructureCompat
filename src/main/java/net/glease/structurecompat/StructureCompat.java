@@ -4,7 +4,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.IIcon;
+import net.minecraft.world.World;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -73,5 +75,10 @@ public class StructureCompat implements IStructureCompat {
     @Override
     public void markTextureUsed(IIcon o) {
         proxy.markTextureUsed(o);
+    }
+
+    @Override
+    public boolean checkServerUtilitiesPermission(World world, EntityPlayer actor, int x, int z) {
+        return proxy.checkServerUtilitiesPermission(world, actor, x, z);
     }
 }
