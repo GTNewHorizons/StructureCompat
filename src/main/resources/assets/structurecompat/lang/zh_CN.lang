@@ -1,0 +1,47 @@
+structureinfo.railcraft.boiler.0=Railcraft 多方块锅炉
+structureinfo.railcraft.boiler.1=固体或液体燃烧室皆可，但同一个锅炉结构内不能混用
+structureinfo.railcraft.boiler.2=低压或高压锅炉方块皆可，但同一个锅炉结构内不能混用
+structureinfo.railcraft.boiler.3=有多种有效尺寸，使用信道 §6width§r 与 §6height§r 指定。
+structureinfo.railcraft.boiler.4=宽度范围：1-3。高度范围取决于宽度，一般为 1-4。
+structureinfo.railcraft.boiler.5=使用子信道 §6boiler§r§7 指定要使用的锅炉类型。
+structureinfo.railcraft.boiler.error.invalid_dimension=宽度 %s 高度 %s 不是有效组合。
+
+structureelement.error.cannot_be_block=(%s, %s, %s) §c不能§r 是 %s！
+
+# Names of the entries this mod registers with StructureLib, shown in its config gui and its reordering list. The
+# number is the priority of the entry, which is what decides the order they are asked in, so it is kept in the name.
+# ===== Stack extractors: taking items out of an item, e.g. out of a backpack =====
+structurelib.sortedregistry.stackextractors.0999-ae2fc-need-before-ae2=0999 AE2FC 无线终端
+structurelib.sortedregistry.stackextractors.0999-ae2fc-need-before-ae2.tooltip=从 AE2FC 无线终端所连的 ME 网络中取物品。需要在 AE2 那条之前尝试，否则 AE2 会先接管这些终端。
+structurelib.sortedregistry.stackextractors.0999-ae2wct-need-before-ae2=0999 无线合成终端
+structurelib.sortedregistry.stackextractors.0999-ae2wct-need-before-ae2.tooltip=从无线合成终端所连的 ME 网络中取物品。需要在 AE2 那条之前尝试，否则 AE2 会先接管这些终端。
+structurelib.sortedregistry.stackextractors.1000-ae2-wireless=1000 AE2 无线终端
+structurelib.sortedregistry.stackextractors.1000-ae2-wireless.tooltip=从玩家携带的 AE2 无线终端所连的 ME 网络中取物品，并遵循该终端视图元件的过滤。
+structurelib.sortedregistry.stackextractors.1000-ae2-portable-cell=1000 AE2 便携元件
+structurelib.sortedregistry.stackextractors.1000-ae2-portable-cell.tooltip=从玩家携带的 AE2 便携元件中取物品，并由该元件自身支付能量。
+structurelib.sortedregistry.stackextractors.1000-adventure-backpack=1000 冒险背包
+structurelib.sortedregistry.stackextractors.1000-adventure-backpack.tooltip=从玩家携带的冒险背包中取物品。穿在身上的背包则改以“物品栏”的形式单独提供。
+structurelib.sortedregistry.stackextractors.1000-forestry-backpack=1000 林业背包
+structurelib.sortedregistry.stackextractors.1000-forestry-backpack.tooltip=从玩家携带的林业背包中取物品。
+
+# ===== Inventory providers: where the inventories of a player are =====
+structurelib.sortedregistry.inventoryproviders.5001-baubles=5001 饰品栏
+structurelib.sortedregistry.inventoryproviders.5001-baubles.tooltip=玩家佩戴的饰品栏。
+structurelib.sortedregistry.inventoryproviders.6000-adventure-backpack=6000 穿在身上的冒险背包
+structurelib.sortedregistry.inventoryproviders.6000-adventure-backpack.tooltip=玩家穿着的冒险背包，它存放在玩家的背包数据中，而不在物品栏里。
+
+# ===== Fluid stack extractors: taking fluid out of an item =====
+structurelib.sortedregistry.fluidstackextractors.1000-ae2fc-fluid-drop=1000 AE2FC 流体滴
+structurelib.sortedregistry.fluidstackextractors.1000-ae2fc-fluid-drop.tooltip=以物品形式存在的流体，一滴即 1 mB。通过减少堆叠数量来支付，未付清的一叠仍留在原槽位。
+structurelib.sortedregistry.fluidstackextractors.1000-adventure-backpack=1000 冒险背包储罐
+structurelib.sortedregistry.fluidstackextractors.1000-adventure-backpack.tooltip=玩家携带的冒险背包的两个储罐。
+structurelib.sortedregistry.fluidstackextractors.1000-okbackpack=1000 OK 背包储罐
+structurelib.sortedregistry.fluidstackextractors.1000-okbackpack.tooltip=玩家携带的 OK 背包的储罐升级。
+
+# ===== Fluid source providers: fluid that is not held in an item =====
+structurelib.sortedregistry.fluidsourceproviders.1000-ae2-wireless=1000 AE2 无线终端（ME 网络）
+structurelib.sortedregistry.fluidsourceproviders.1000-ae2-wireless.tooltip=只要玩家携带的无线终端已链接、且在无线接入点范围内，就直接从它的 ME 网络中抽取多方块所需的流体。终端会用自己的能量支付，和从它取物品完全一致。
+structurelib.sortedregistry.fluidsourceproviders.1000-adventure-backpack=1000 穿在身上的冒险背包储罐
+structurelib.sortedregistry.fluidsourceproviders.1000-adventure-backpack.tooltip=玩家穿着的冒险背包的储罐；该背包存放在玩家的背包数据里而不在物品栏中，自动放置看不到它。
+structurelib.sortedregistry.fluidsourceproviders.1000-okbackpack=1000 穿在身上的 OK 背包储罐
+structurelib.sortedregistry.fluidsourceproviders.1000-okbackpack.tooltip=玩家穿在护甲栏或饰品栏中的 OK 背包的储罐升级。

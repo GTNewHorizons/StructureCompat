@@ -23,7 +23,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
         version = Tags.VERSION,
         name = Tags.MODNAME,
         acceptedMinecraftVersions = "[1.7.10]",
-        dependencies = "required-after:structurelib")
+        dependencies = "required-after:structurelib@[1.4.44,)")
 public class StructureCompat implements IStructureCompat {
 
     public static final Logger LOG = LogManager.getLogger(Tags.MODID);
