@@ -1,7 +1,7 @@
 // Add your dependencies here
 
 dependencies {
-    api("com.github.GTNewHorizons:StructureLib:1.4.18:dev")
+    api("com.github.GTNewHorizons:StructureLib:1.4.44:dev")
 
     implementation("com.github.GTNewHorizons:Applied-Energistics-2-Unofficial:rv3-beta-675-GTNH:dev") {
         transitive = false
@@ -30,6 +30,19 @@ dependencies {
         exclude module: 'Baubles'
     }
     implementation("com.github.GTNewHorizons:Baubles-Expanded:2.1.9-GTNH:dev")
+    implementation("com.github.Shigure-Ruiseki:OKBackpack:26.09.06.0:dev") {
+        transitive = false
+    }
+    // needed to compile against the okbackpack api
+    implementation("com.github.GTNewHorizons:ModularUI2:2.3.88-1.7.10:dev") {
+        transitive = false
+    }
+    implementation("com.github.GTNewHorizons:ModularUI:1.3.4:dev") {
+        transitive = false
+    }
+    implementation("com.github.Shigure-Ruiseki:OKCore:26.09.05.1:dev") {
+        transitive = false
+    }
 
     // for convenience of debug
     runtimeOnlyNonPublishable("com.github.GTNewHorizons:NotEnoughItems:2.7.74-GTNH:dev")

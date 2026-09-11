@@ -7,3 +7,41 @@ structureinfo.railcraft.boiler.5=Uses sub channel §6boiler§r§7 to specify wha
 structureinfo.railcraft.boiler.error.invalid_dimension=Width %s Height %s is not a valid combination.
 
 structureelement.error.cannot_be_block=(%s, %s, %s) §cCANNOT§r be %s!
+
+# Names of the entries this mod registers with StructureLib, shown in its config gui and its reordering list. The
+# number is the priority of the entry, which is what decides the order they are asked in, so it is kept in the name.
+# ===== Stack extractors: taking items out of an item, e.g. out of a backpack =====
+structurelib.sortedregistry.stackextractors.0999-ae2fc-need-before-ae2=0999 AE2 Fluid Craft wireless terminals
+structurelib.sortedregistry.stackextractors.0999-ae2fc-need-before-ae2.tooltip=Takes items out of the ME network of an AE2 Fluid Craft wireless terminal. Tried before the AE2 one, as its terminals would otherwise be answered for by AE2 first.
+structurelib.sortedregistry.stackextractors.0999-ae2wct-need-before-ae2=0999 Wireless Crafting Terminal
+structurelib.sortedregistry.stackextractors.0999-ae2wct-need-before-ae2.tooltip=Takes items out of the ME network of a Wireless Crafting Terminal. Tried before the AE2 one, as its terminals would otherwise be answered for by AE2 first.
+structurelib.sortedregistry.stackextractors.1000-ae2-wireless=1000 AE2 wireless terminals
+structurelib.sortedregistry.stackextractors.1000-ae2-wireless.tooltip=Takes items out of the ME network of an AE2 wireless terminal the player carries, honouring the view cells of the terminal.
+structurelib.sortedregistry.stackextractors.1000-ae2-portable-cell=1000 AE2 portable cells
+structurelib.sortedregistry.stackextractors.1000-ae2-portable-cell.tooltip=Takes items out of an AE2 portable cell the player carries, paying the energy of the cell for it.
+structurelib.sortedregistry.stackextractors.1000-adventure-backpack=1000 Adventure Backpack
+structurelib.sortedregistry.stackextractors.1000-adventure-backpack.tooltip=Takes items out of an Adventure Backpack the player carries. A backpack that is worn is offered as an inventory of its own instead.
+structurelib.sortedregistry.stackextractors.1000-forestry-backpack=1000 Forestry backpack
+structurelib.sortedregistry.stackextractors.1000-forestry-backpack.tooltip=Takes items out of a Forestry backpack the player carries.
+
+# ===== Inventory providers: where the inventories of a player are =====
+structurelib.sortedregistry.inventoryproviders.5001-baubles=5001 Baubles
+structurelib.sortedregistry.inventoryproviders.5001-baubles.tooltip=The baubles the player wears.
+structurelib.sortedregistry.inventoryproviders.6000-adventure-backpack=6000 Worn Adventure Backpack
+structurelib.sortedregistry.inventoryproviders.6000-adventure-backpack.tooltip=The Adventure Backpack the player wears, which is kept in the backpack data of the player rather than in their inventory.
+
+# ===== Fluid stack extractors: taking fluid out of an item =====
+structurelib.sortedregistry.fluidstackextractors.1000-ae2fc-fluid-drop=1000 AE2 Fluid Craft fluid drop
+structurelib.sortedregistry.fluidstackextractors.1000-ae2fc-fluid-drop.tooltip=Fluid in item form, one drop being one milli bucket. A stack is spent by reducing its size, so a partly paid stack stays in its slot.
+structurelib.sortedregistry.fluidstackextractors.1000-adventure-backpack=1000 Adventure Backpack tanks
+structurelib.sortedregistry.fluidstackextractors.1000-adventure-backpack.tooltip=The two tanks of a backpack a player carries.
+structurelib.sortedregistry.fluidstackextractors.1000-okbackpack=1000 OK Backpack tanks
+structurelib.sortedregistry.fluidstackextractors.1000-okbackpack.tooltip=The tank upgrades of a backpack a player carries.
+
+# ===== Fluid source providers: fluid that is not held in an item =====
+structurelib.sortedregistry.fluidsourceproviders.1000-ae2-wireless=1000 AE2 wireless terminal (ME network)
+structurelib.sortedregistry.fluidsourceproviders.1000-ae2-wireless.tooltip=Takes the fluid a multiblock needs straight out of the ME network of a wireless terminal the player carries, as long as it is linked and in range of a wireless access point. The terminal pays for it with its own energy, exactly like taking items through it does.
+structurelib.sortedregistry.fluidsourceproviders.1000-adventure-backpack=1000 Worn Adventure Backpack tanks
+structurelib.sortedregistry.fluidsourceproviders.1000-adventure-backpack.tooltip=The tanks of the backpack a player wears, which is kept in the backpack data of the player rather than in their inventory, where autoplace cannot see it.
+structurelib.sortedregistry.fluidsourceproviders.1000-okbackpack=1000 Worn OK Backpack tanks
+structurelib.sortedregistry.fluidsourceproviders.1000-okbackpack.tooltip=The tank upgrades of a backpack a player wears in an armor slot or a baubles slot.
